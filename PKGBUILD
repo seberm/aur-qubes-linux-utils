@@ -5,9 +5,9 @@
 
 pkgbase=qubes-linux-utils
 pkgname=(qubes-vm-utils qubes-vm-kernel-support)
-pkgver=4.0.32
+pkgver=4.1.13
 _gitname=${pkgname%-git*}
-pkgrel=10
+pkgrel=1
 pkgdesc="Common Linux files for Qubes VM."
 arch=("x86_64")
 url="https://github.com/QubesOS/qubes-linux-utils"
@@ -35,7 +35,7 @@ build() {
 }
 
 package_qubes-vm-utils() {
-    depends=(qubes-libvchan imagemagick python-pillow python-numpy)
+    depends=(imagemagick python-cairo python-pillow python-numpy)
     install=PKGBUILD-qubes-vm-utils.install
 
     cd "${srcdir}/${_gitname}/"
@@ -43,7 +43,7 @@ package_qubes-vm-utils() {
 }
 
 package_qubes-vm-kernel-support() {
-    depends=(qubes-libvchan mkinitcpio dkms grub)
+    depends=(mkinitcpio grub)
     install=PKGBUILD-qubes-vm-kernel-support.install
 
     mkdir -p ${pkgdir}/usr/lib/initcpio/install/
@@ -56,6 +56,4 @@ package_qubes-vm-kernel-support() {
 
     cd "${srcdir}/${_gitname}/"
     install -m 755 dracut/full-dmroot/qubes_cow_setup.sh ${pkgdir}/usr/lib/qubes/qubes_cow_setup.sh
-
-    make install-u2mfn DESTDIR="$pkgdir" -C kernel-modules
 }
